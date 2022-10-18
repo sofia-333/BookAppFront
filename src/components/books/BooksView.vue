@@ -120,7 +120,7 @@ export default {
           this.book = response.data;
           this.isbn = null;
         } else {
-          displayErrors(response, "Could not find the book dgaegaer.")
+          displayErrors(response, "Could not find the book.")
         }
       } else {
         this.$toast.error("Wrong ISBN number provided.");
