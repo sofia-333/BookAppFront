@@ -103,13 +103,6 @@ export default {
       user: state => state.user,
     })
   },
-  watch: {
-    token() {
-      if (!this.token || !this.user) {
-        this.$router.push({path: '/login'});
-      }
-    },
-  },
   methods: {
     async getBookData() {
       this.loading = true
