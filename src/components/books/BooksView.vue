@@ -52,7 +52,7 @@
         <template #header>
           <h4 class="mb-0">{{ book.title }}</h4>
         </template>
-        <div class="d-flex mb-4">
+        <div class="d-flex mb-4 flex-direction-">
           <img v-if="book.cover_url" :src="`${book.cover_url}`" alt="Image" class="image">
           <img v-else src="../../assets/coverNotAvailable.png" alt="Image" class="image">
           <div class="mx-3">
@@ -63,8 +63,9 @@
             <p v-if="book.notes">Notes: {{ book.notes }}</p>
           </div>
         </div>
+        <list-info :items="book.authors" :title="'Authors'" :isLink="true"></list-info>
         <list-info :items="book.publishers" :title="'Publishers'"></list-info>
-        <list-info :items="book.publish_places" :title="'Publishers'"></list-info>
+        <list-info :items="book.publish_places" :title="'Publish Places'"></list-info>
         <list-info :items="book.subject_people" :title="'Subject People'"></list-info>
         <list-info :items="book.subject_places" :title="'Subject Places'"></list-info>
         <list-info :items="book.subjects" :title="'Subjects'"></list-info>
