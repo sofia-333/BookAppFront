@@ -9,6 +9,9 @@ const mainService = {
     getUser(data) {
         return handleRequest('get', MAIN_URL + 'user/', data, authHeader());
     },
+    logout() {
+        return handleRequest('post', MAIN_URL + 'logout/', authHeader());
+    },
     getToken(data) {
         return handleRequest('post', MAIN_URL + 'create-token/', data);
     },

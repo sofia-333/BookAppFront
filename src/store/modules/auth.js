@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import mainService from "@/assets/js/service";
 
 Vue.use(Vuex)
 const state = {
@@ -14,7 +15,8 @@ const actions = {
     setUser({commit}, user = null) {
         commit('setUser', user);
     },
-    logoutUser({commit}) {
+    async logoutUser({commit},) {
+        await mainService.logout()
         commit('logoutUser');
     }
 };
