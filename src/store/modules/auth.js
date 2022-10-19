@@ -14,8 +14,8 @@ const actions = {
     setUser({commit}, user = null) {
         commit('setUser', user);
     },
-    logoutUser({commit}, user = null) {
-        commit('logoutUser', user);
+    logoutUser({commit}) {
+        commit('logoutUser');
     }
 };
 
