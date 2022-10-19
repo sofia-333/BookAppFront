@@ -10,10 +10,10 @@ const mainService = {
         return handleRequest('get', MAIN_URL + 'user/', data, authHeader());
     },
     getToken(data) {
-        return handleRequest('post', MAIN_URL + 'api-token-auth/', data);
+        return handleRequest('post', MAIN_URL + 'create-token/', data);
     },
     getBookData(isbn) {
-        return handleRequest('get', MAIN_URL + `book/${isbn}`, authHeader());
+        return handleRequest('get', MAIN_URL + `book/${isbn}`, null, authHeader());
     },
 }
 
