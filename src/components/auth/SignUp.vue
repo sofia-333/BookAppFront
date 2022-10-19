@@ -62,7 +62,7 @@ import mainService from "@/assets/js/service";
 import {mapState, mapActions} from "vuex";
 import userModel from "@/components/auth/userModel";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
-import displayErrors from "@/components/common/helperMethods";
+import handleErrors from "@/components/common/helperMethods";
 
 export default {
   name: "SignUp.vue",
@@ -85,7 +85,7 @@ export default {
         this.$toast.success("Signed Up successfully");
         this.$router.push({path: '/login'});
       } else {
-        displayErrors(response, "Something went wrong")
+        await handleErrors(response, "Something went wrong")
       }
     }
   }

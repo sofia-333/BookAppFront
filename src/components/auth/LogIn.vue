@@ -37,7 +37,7 @@ import {mapState, mapActions} from "vuex";
 import userModel from "@/components/auth/userModel";
 import {ValidationObserver} from 'vee-validate';
 import {ValidationProvider} from 'vee-validate';
-import displayErrors from "@/components/common/helperMethods";
+import handleErrors from "@/components/common/helperMethods";
 
 export default {
   name: "LogIn.vue",
@@ -62,7 +62,7 @@ export default {
         await this.successfulLogin(response.data.token);
         this.$toast.success("Logged in successfully");
       } else {
-        displayErrors(response, "Something went wrong")
+        await handleErrors(response, "Something went wrong")
       }
     },
     async successfulLogin(responseToken) {
@@ -75,7 +75,7 @@ export default {
           this.$router.push({path: '/books'});
         }
       } else {
-        displayErrors(response, "Something went wrong")
+        await handleErrors(response, "Something went wrong")
       }
     },
 
