@@ -6,8 +6,8 @@
           <h3 class="label">LogIn</h3>
           <div class="input-container">
             <div class="pb-4">
-              <ValidationProvider name='username' rules="required|alpha_num" v-slot="{ errors }">
-                <input type="text" v-model="model.username" placeholder="username"
+              <ValidationProvider name='email' rules="required|email" v-slot="{ errors }">
+                <input type="email" v-model="model.email" placeholder="email"
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -57,7 +57,7 @@ export default {
   methods: {
     ...mapActions(['setToken', 'setUser']),
     async onSubmit() {
-      let response = await mainService.getToken(this.model);
+      let response = await mainService.getToken({"password": this.model.password, "email": this.model.email});
       if (response.success) {
         await this.successfulLogin(response.data.token);
         this.$toast.success("Logged in successfully");
@@ -67,7 +67,7 @@ export default {
     },
     async successfulLogin(responseToken) {
       this.setToken(responseToken);
-      let response = await mainService.getUser({username: this.model.username});
+      let response = await mainService.getUser({email: this.model.email});
       if (response.success) {
         if (response.data && response.data) {
           this.setUser(response.data);

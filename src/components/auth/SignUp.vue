@@ -27,13 +27,6 @@
               </ValidationProvider>
             </div>
             <div class="pb-4">
-              <ValidationProvider name='username' rules="required|alpha_num" v-slot="{ errors }">
-                <input type="text" v-model="model.username" placeholder="username"
-                       class="form-control form-control-md"/>
-                <span class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-            </div>
-            <div class="pb-4">
               <ValidationProvider name='password' rules="required" v-slot="{ errors }">
                 <input type="password" v-model="model.password" placeholder="password" ref="password" name="password"
                        class="form-control form-control-md"/>
@@ -45,7 +38,6 @@
                 <input type="password" v-model="model.password2" placeholder="repeat the password" name="password2"
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
-
               </ValidationProvider>
             </div>
           </div>
