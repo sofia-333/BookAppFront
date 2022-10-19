@@ -1,4 +1,7 @@
 import Vue from 'vue';
+import store from "@/store";
+import router from "@/router";
+import axios from "axios";
 
 export default async function handleErrors(response, errorMessage) {
     if (response.data.non_field_errors && response.data.non_field_errors[0]) {
@@ -10,4 +13,29 @@ export default async function handleErrors(response, errorMessage) {
     } else {
         Vue.$toast.error(errorMessage);
     }
+}
+
+//helper to set bool success and response data to all axios requests
+export async function handleRequest(type, url, data = null, headers) {
+    let response = {}
+    try {
+        switch (type) {
+            case 'get':
+                response = await axios.get(url, {headers: headers});
+                break;
+            case 'post':
+                response = await axios.post(url, data, {headers: headers});
+                break;
+            case 'put':
+                response = await axios.put(url, data, {headers: headers});
+                break;
+            default:
+                response = await axios.delete(url, {headers: headers});
+        }
+        response.success = true;
+    } catch (error) {
+        response = error.response;
+        response.success = false;
+    }
+    return response;
 }

@@ -1,6 +1,6 @@
-import axios from "axios";
 import {MAIN_URL} from "@/assets/js/consts";
 import store from '../../store/index'
+import {handleRequest} from "@/components/common/helperMethods";
 
 const mainService = {
     createUser(data) {
@@ -17,29 +17,6 @@ const mainService = {
     },
 }
 
-async function handleRequest(type, url, data = null, headers) {
-    let response = {}
-    try {
-        switch (type) {
-            case 'get':
-                response = await axios.get(url, {headers: headers});
-                break;
-            case 'post':
-                response = await axios.post(url, data, {headers: headers});
-                break;
-            case 'put':
-                response = await axios.put(url, data, {headers: headers});
-                break;
-            default:
-                response = await axios.delete(url, {headers: headers});
-        }
-        response.success = true;
-    } catch (error) {
-        response = error.response;
-        response.success = false;
-    }
-    return response;
-}
 
 function authHeader() {
     if (store.state.auth.token) {
