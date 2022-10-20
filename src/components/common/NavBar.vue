@@ -2,36 +2,38 @@
   <nav class="navbar shadow rounded fixed-top">
     <div>
       <div v-if="1" class="nav navbar-nav flex-row">
-        <div class="mx-2" v-if="!token || !user">
+        <div class="mx-2" v-if="!isAuthenticated && !token">
           <router-link class="btn" to="/login">Login</router-link>
         </div>
-        <div class="mx-2" v-if="!token || !user">
+        <div class="mx-2" v-if="!isAuthenticated && !token">
           <router-link class="btn" to="/signup">Sign up</router-link>
         </div>
       </div>
     </div>
     <div class="navbar-nav flex-row">
-      <div class="p-2 name" v-if="user">
-        {{ user.first_name }} {{ user.last_name }}
+      <div class="p-2 name">
+        {{ user && user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : isAuthenticated ? userDisplayName : '' }}
       </div>
-      <div class="mx-2" v-if="token && user">
-        <button class="btn" @click="logout" to>LogOut</button>
+      {{isAuthenticated}}
+      <div class="mx-2" v-if="token || isAuthenticated">
+        <button class="btn" @click="logout">LogOut</button>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import {mapState, mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "NavBar",
-  data() {
-    return {
-      // user:
-    }
-  },
   computed: {
+    isAuthenticated() {
+      return !!localStorage.token;
+    },
+    userDisplayName() {
+      return localStorage.userDisplayName;
+    },
     ...mapState({
       user: state => state.auth.user,
       token: state => state.auth.token,

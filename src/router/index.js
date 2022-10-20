@@ -1,4 +1,3 @@
-import store from "@/store";
 import VueRouter from "vue-router";
 import SignUp from "@/components/auth/SignUp";
 import LogIn from "@/components/auth/LogIn";
@@ -28,7 +27,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (!store.state.auth.token && to.path !== '/login'&& to.path !== '/signup') {
+    if (!localStorage.token && to.path !== '/login'&& to.path !== '/signup') {
         next('/login')
     }
     else {

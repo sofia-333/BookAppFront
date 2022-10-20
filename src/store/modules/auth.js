@@ -12,7 +12,7 @@ const actions = {
     setToken({commit}, token = null) {
         commit('setToken', token);
     },
-    setUser({commit}, user = null) {
+    setUser({commit}, user ) {
         commit('setUser', user);
     },
     async logoutUser({commit},) {
@@ -24,13 +24,17 @@ const actions = {
 const mutations = {
     setToken: (state, token) => {
         state.token = token;
+        localStorage.token = token;
     },
     setUser: (state, user) => {
         state.user = user;
+        localStorage.userDisplayName = `${user.first_name} ${user.last_name}`;
     },
     logoutUser: (state) => {
         state.user = null;
         state.token = null;
+        localStorage.removeItem('token');
+        localStorage.removeItem('userDisplayName');
     }
 };
 

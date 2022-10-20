@@ -1,5 +1,4 @@
 import {MAIN_URL} from "@/assets/js/consts";
-import store from '../../store/index'
 import {handleRequest} from "@/components/common/helperMethods";
 
 const mainService = {
@@ -10,7 +9,7 @@ const mainService = {
         return handleRequest('get', MAIN_URL + 'user/', data, authHeader());
     },
     logout() {
-        return handleRequest('post', MAIN_URL + 'logout/', authHeader());
+        return handleRequest('post', MAIN_URL + 'logout/', {}, authHeader());
     },
     getToken(data) {
         return handleRequest('post', MAIN_URL + 'create-token/', data);
@@ -22,8 +21,8 @@ const mainService = {
 
 
 function authHeader() {
-    if (store.state.auth.token) {
-        return {Authorization: 'Token ' + store.state.auth.token};
+    if (localStorage.token) {
+        return {Authorization: 'Token ' + localStorage.token};
     } else {
         return {};
     }
