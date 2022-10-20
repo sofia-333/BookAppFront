@@ -11,6 +11,7 @@
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
+              <span class="error">{{ getResponseFieldErrors('first_name') }}</span>
             </div>
             <div class="pb-4">
               <ValidationProvider name='lastname' rules="required|max:55|alpha" v-slot="{ errors }">
@@ -18,6 +19,7 @@
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
+              <span class="error">{{ getResponseFieldErrors('last_name') }}</span>
             </div>
             <div class="pb-4">
               <ValidationProvider name='email' rules="required|email" v-slot="{ errors }">
@@ -25,6 +27,7 @@
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
+              <span class="error">{{ getResponseFieldErrors('email') }}</span>
             </div>
             <div class="pb-4">
               <ValidationProvider name='password' vid="password" rules="required|min:8" v-slot="{ errors }">
@@ -32,6 +35,7 @@
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
+              <span class="error">{{ getResponseFieldErrors('password') }}</span>
             </div>
             <div class="pb-4">
               <ValidationProvider name='password' rules="required|min:8|confirmed:password" v-slot="{ errors }">
@@ -39,6 +43,7 @@
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
+              <span class="error">{{getResponseFieldErrors('password2') }}</span>
             </div>
           </div>
           <div class="d-flex justify-content-end">
@@ -62,6 +67,7 @@ export default {
   data() {
     return {
       model: new userModel(),
+      responseFieldErrors: {}
     }
   },
   computed: {
@@ -77,12 +83,16 @@ export default {
     async onSubmit() {
       this.model.username = this.model.email; // fill username with email
       let response = await mainService.createUser(this.model);
-      console.log(response);
       if (response.success) {
         this.$toast.success("Signed Up successfully");
         this.$router.push({path: '/login'});
       } else {
-        await handleErrors(response, "Something went wrong", true)
+        this.responseFieldErrors = await handleErrors(response, "Could not register user", true)
+      }
+    },
+    getResponseFieldErrors(field){
+      if (this.responseFieldErrors[field] && this.responseFieldErrors[field][0]){
+        return this.responseFieldErrors[field][0];
       }
     }
   }
