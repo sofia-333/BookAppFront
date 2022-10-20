@@ -2,20 +2,19 @@
   <nav class="navbar shadow rounded fixed-top">
     <div>
       <div v-if="1" class="nav navbar-nav flex-row">
-        <div class="mx-2" v-if="!isAuthenticated && !token">
+        <div class="mx-2" v-if="!isAuthenticated">
           <router-link class="btn" to="/login">Login</router-link>
         </div>
-        <div class="mx-2" v-if="!isAuthenticated && !token">
+        <div class="mx-2" v-if="!isAuthenticated">
           <router-link class="btn" to="/signup">Sign up</router-link>
         </div>
       </div>
     </div>
     <div class="navbar-nav flex-row">
-      <div class="p-2 name">
-        {{ user && user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : isAuthenticated ? userDisplayName : '' }}
+      <div class="p-2 name" v-if="isAuthenticated">
+        {{ userDisplayName }}
       </div>
-      {{isAuthenticated}}
-      <div class="mx-2" v-if="token || isAuthenticated">
+      <div class="mx-2" v-if="isAuthenticated">
         <button class="btn" @click="logout">LogOut</button>
       </div>
     </div>
@@ -27,12 +26,19 @@ import {mapActions, mapState} from "vuex";
 
 export default {
   name: "NavBar",
+  data() {
+    return {
+      isAuthenticated: this.$route.name !== 'login' && this.$route.name !== 'signup',
+    }
+  },
+  watch: {
+    '$route.name'() {
+      this.isAuthenticated = this.$route.name !== 'login' && this.$route.name !== 'signup';
+    }
+  },
   computed: {
-    isAuthenticated() {
-      return !!localStorage.token;
-    },
     userDisplayName() {
-      return localStorage.userDisplayName;
+      return this.user && this.user.first_name && this.user.last_name ? `${this.user.first_name} ${this.user.last_name}` : localStorage.token ? localStorage.userDisplayName : '';
     },
     ...mapState({
       user: state => state.auth.user,
