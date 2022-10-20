@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver ref="observer" v-slot="{ }">
+  <ValidationObserver ref="Observer" v-slot="{ invalid }">
     <div>
       <div class="myContainer">
         <form @submit.prevent="onSubmit">
@@ -13,7 +13,7 @@
               </ValidationProvider>
             </div>
             <div class="pb-4">
-              <ValidationProvider name='lastname' rules="required|max:55" v-slot="{ errors }">
+              <ValidationProvider name='lastname' rules="required|max:55|alpha" v-slot="{ errors }">
                 <input type="text" v-model="model.last_name" placeholder="lastname"
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
@@ -27,14 +27,14 @@
               </ValidationProvider>
             </div>
             <div class="pb-4">
-              <ValidationProvider name='password' rules="required" v-slot="{ errors }">
-                <input type="password" v-model="model.password" placeholder="password" ref="password" name="password"
+              <ValidationProvider name='password' vid="password" rules="required|min:8" v-slot="{ errors }">
+                <input type="password" v-model="model.password" placeholder="password"  name="password"
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
             <div class="pb-4">
-              <ValidationProvider name='password' rules="required" v-slot="{ errors }">
+              <ValidationProvider name='password' rules="required|min:8|confirmed:password" v-slot="{ errors }">
                 <input type="password" v-model="model.password2" placeholder="repeat the password" name="password2"
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
@@ -42,7 +42,7 @@
             </div>
           </div>
           <div class="d-flex justify-content-end">
-          <button type="submit" class="btn btn-dark mt-3">Sign Up</button>
+            <button type="submit" class="btn btn-dark mt-3" :disabled="invalid || !isFilled">Sign Up</button>
           </div>
         </form>
       </div>
@@ -68,16 +68,21 @@ export default {
     ...mapState({
       token: state => state.auth.token,
     }),
+    isFilled() {
+      return this.model.email && this.model.password && this.model.password2 && this.model.first_name && this.model.last_name;
+    }
   },
   methods: {
     ...mapActions(['setToken', 'setUser']),
     async onSubmit() {
+      this.model.username = this.model.email; // fill username with email
       let response = await mainService.createUser(this.model);
+      console.log(response);
       if (response.success) {
         this.$toast.success("Signed Up successfully");
         this.$router.push({path: '/login'});
       } else {
-        await handleErrors(response, "Something went wrong")
+        await handleErrors(response, "Something went wrong", true)
       }
     }
   }
@@ -115,7 +120,7 @@ export default {
   margin-top: 2px;
 }
 
-.input-container{
+.input-container {
   background-color: rgba(255, 255, 255, 0.64);
   padding: 25px 15px 5px;
   border-radius: 10px;

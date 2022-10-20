@@ -1,20 +1,18 @@
 <template>
-  <ValidationObserver ref="validationObs">
-    <div>
+  <ValidationObserver v-slot="{ invalid }" ref="Observer">
       <div class="myContainer">
         <form @submit.prevent="onSubmit">
           <h3 class="label">LogIn</h3>
           <div class="input-container">
             <div class="pb-4">
               <ValidationProvider name='email' rules="required|email" v-slot="{ errors }">
-                <input type="email" v-model="model.email" placeholder="email"
-                       class="form-control form-control-md"/>
+                <input type="email" v-model="model.email" placeholder="email" class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
-            <ValidationProvider name='password' rules="required" v-slot="{ errors }">
+            <ValidationProvider name='password' rules="required|min:8" v-slot="{ errors }">
               <div class="pb-4">
-                <input type="password" v-model="model.password" placeholder="password" ref="password" name="password"
+                <input type="password" v-model="model.password" placeholder="password" name="password"
                        class="form-control form-control-md"/>
                 <span class="error">{{ errors[0] }}</span>
               </div>
@@ -24,11 +22,10 @@
             <p class="forgot-password text-right mt-1 mb-4">
               <router-link to="/forgot-password">Forgot password ?</router-link>
             </p>
-            <button type="submit" class="btn btn-dark mt-3">Login</button>
+            <button type="submit" class="btn btn-dark mt-3" :disabled="invalid || !isFilled">Login</button>
           </div>
         </form>
       </div>
-    </div>
   </ValidationObserver>
 </template>
 <script>
@@ -53,6 +50,9 @@ export default {
     ...mapState({
       token: state => state.auth.token,
     }),
+    isFilled(){
+      return this.model.email && this.model.password;
+    }
   },
   methods: {
     ...mapActions(['setToken', 'setUser']),
