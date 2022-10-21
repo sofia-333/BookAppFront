@@ -2,6 +2,7 @@ import VueRouter from "vue-router";
 import SignUp from "@/components/auth/SignUp";
 import LogIn from "@/components/auth/LogIn";
 import BooksView from "@/components/books/BooksView";
+import ForgotPassword from "@/components/auth/ForgotPassword";
 
 export const routes = [{
     path: '/',
@@ -18,6 +19,10 @@ export const routes = [{
     path: '/books',
     name: 'books',
     component: BooksView,
+}, {
+    path: '/forgot-password',
+    name: 'forgotPassword',
+    component: ForgotPassword,
 },
 ]
 
@@ -27,10 +32,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (!localStorage.token && to.path !== '/login'&& to.path !== '/signup') {
+    if (!localStorage.token && to.path !== '/login' && to.path !== '/signup' && to.name !== 'forgotPassword') {
         next('/login')
-    }
-    else {
+    } else {
         next()
     }
 });

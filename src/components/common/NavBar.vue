@@ -28,12 +28,12 @@ export default {
   name: "NavBar",
   data() {
     return {
-      isAuthenticated: this.$route.name !== 'login' && this.$route.name !== 'signup',
+      isAuthenticated: this.$route.name !== 'login' && this.$route.name !== 'signup' && this.$route.name !== 'forgotPassword',
     }
   },
   watch: {
     '$route.name'() {
-      this.isAuthenticated = this.$route.name !== 'login' && this.$route.name !== 'signup';
+      this.isAuthenticated = this.$route.name !== 'login' && this.$route.name !== 'signup' && this.$route.name !== 'forgotPassword';
     }
   },
   computed: {
