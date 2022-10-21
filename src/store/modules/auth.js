@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import mainService from "@/assets/js/service";
+import mainService from "@/utils/service";
 
 Vue.use(Vuex)
 const state = {
