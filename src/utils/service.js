@@ -1,5 +1,5 @@
-import {MAIN_URL} from "@/assets/js/consts";
-import {handleRequest} from "@/components/common/helperMethods";
+import {MAIN_URL} from "@/utils/consts";
+import {handleRequest} from "@/utils/helperMethods";
 
 const mainService = {
     createUser(data) {
@@ -17,6 +17,12 @@ const mainService = {
     getBookData(isbn) {
         return handleRequest('get', MAIN_URL + `book/${isbn}`, null, authHeader());
     },
+    sendForgotPasswordEmail(data) {
+        return handleRequest('post', MAIN_URL + 'forgot-password/', data);
+    },
+    resetPassword(data, pk, token) {
+        return handleRequest('patch', MAIN_URL + `reset-password/${pk}/${token}/`, data);
+    }
 }
 
 

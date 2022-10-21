@@ -31,6 +31,9 @@ export async function handleRequest(type, url, data = null, headers) {
             case 'put':
                 response = await axios.put(url, data, {headers: headers});
                 break;
+            case 'patch':
+                response = await axios.patch(url, data, {headers: headers});
+                break;
             default:
                 response = await axios.delete(url, {headers: headers});
         }
