@@ -19,7 +19,7 @@
             </ValidationProvider>
           </div>
           <div class="d-flex justify-content-between">
-            <p class="forgot-password text-right mt-1 mb-4">
+            <p class="forgot-password mt-1 mb-4">
               <router-link to="/forgot-password">Forgot password ?</router-link>
             </p>
             <button type="submit" class="btn btn-dark mt-3" :disabled="invalid || !isFilled">Login</button>
@@ -29,12 +29,12 @@
   </ValidationObserver>
 </template>
 <script>
-import mainService from "@/assets/js/service";
+import mainService from "@/utils/service";
 import {mapState, mapActions} from "vuex";
 import userModel from "@/components/auth/userModel";
 import {ValidationObserver} from 'vee-validate';
 import {ValidationProvider} from 'vee-validate';
-import handleErrors from "@/components/common/helperMethods";
+import handleErrors from "@/utils/helperMethods";
 
 export default {
   name: "LogIn.vue",

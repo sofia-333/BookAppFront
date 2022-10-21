@@ -78,10 +78,10 @@
 
 <script>
 import {mapState} from "vuex";
-import mainService from "@/assets/js/service";
+import mainService from "@/utils/service";
 import ListInfo from "@/components/common/ListInfo";
-import {ISBN_REGEX} from "@/assets/js/consts";
-import handleErrors from "@/components/common/helperMethods";
+import {ISBN_REGEX} from "@/utils/consts";
+import handleErrors from "@/utils/helperMethods";
 
 export default {
   name: "BooksView.vue",
