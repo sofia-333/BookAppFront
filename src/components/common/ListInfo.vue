@@ -1,7 +1,7 @@
 <template>
   <div v-if="items && items.length>0" class="mb-2 info-container">
     <h5 class="title">{{ title }}</h5>
-    <div v-if="items.length<=5">
+    <div v-if="items.length<=itemsShowNum">
       <div v-if="isLink">
         <a :href="`${item.url}`" class="mb-1" :key="`${item[displayAttribute]}-${Math.random()}`"
            v-for="item in items">
